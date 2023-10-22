@@ -17,10 +17,11 @@ export default class SendMessageController {
         const { phoneNumber } = req.params
         const data = req.body
         const { error } = this.sendMessageSchema.sendMessage.validate(data)
-        if (error)
+        if (error) {
             return res.status(400).send({
                 message: error.details[0].message
             })
+        }
         const { message } = data
         console.log(req.body)
         await this.client.sendMessage(phoneNumber + '@c.us', {
@@ -29,8 +30,8 @@ export default class SendMessageController {
         return res.status(202).send({
             message: 'success sending message',
             info: {
-                phoneNumber: phoneNumber,
-                message: message
+                phoneNumber,
+                message
             }
         })
     }

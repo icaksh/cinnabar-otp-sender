@@ -1,5 +1,4 @@
 import express from 'express'
-import { join } from 'path'
 import { type Client } from '.'
 import expressPino from 'express-pino-logger'
 import { OneTimePasswordRouter } from '../Routes/OneTimePasswordRouter'

@@ -1,7 +1,6 @@
 import { Sequelize } from '@sequelize/core'
 import SessionModel from './Models/SessionModel'
 import OneTimePasswordModel from './Models/OneTimePasswordModel'
-import { dirname } from 'path'
 
 // const dbName = process.env.DB_NAME as string
 // const dbUser = process.env.DB_USER as string

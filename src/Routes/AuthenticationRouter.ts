@@ -1,5 +1,4 @@
 import { join } from 'path'
-import OneTimePasswordController from '../Controllers/OneTimePasswordController'
 import { type Client } from '../Structures'
 import express, { type Router } from 'express'
 
@@ -33,8 +32,4 @@ export class AuthenticationRouter {
             res.status(200).contentType('image/png').send(this.client.QR)
         })
     }
-
 }
-
-
-

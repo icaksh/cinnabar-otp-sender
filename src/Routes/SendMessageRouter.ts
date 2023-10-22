@@ -1,4 +1,3 @@
-import OneTimePasswordController from '../Controllers/OneTimePasswordController'
 import SendMessageController from '../Controllers/SendMessageController'
 import { type Client } from '../Structures'
 import express, { type Router } from 'express'

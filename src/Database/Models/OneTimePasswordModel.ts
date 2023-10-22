@@ -65,8 +65,8 @@ export default class OneTimePasswordModel extends Model<
     public updateOTP = async (phoneNumber: number, attempt: number, isUsed: boolean): Promise<void> => {
         await this.otp.update(
             {
-                attempt: attempt,
-                isUsed: isUsed
+                attempt,
+                isUsed
             },
             {
                 where: {

@@ -15,7 +15,7 @@ export default class OneTimePasswordController {
     private readonly otpModel: OneTimePasswordModel = new OneTimePasswordModel()
     private readonly otpSchema: OneTimePasswordSchema = new OneTimePasswordSchema()
 
-    private checkOTP = async (phoneNumber: string) => {
+    private readonly checkOTP = async (phoneNumber: string) => {
         const result = await this.otpModel.getOTPFromPhoneNumber(parseInt(phoneNumber))
         return result
     }
@@ -23,26 +23,29 @@ export default class OneTimePasswordController {
     public getOTP = async (req: Request, res: Response) => {
         const { phoneNumber } = req.params
         const otp = await this.checkOTP(phoneNumber)
-        if (otp == null)
+        if (otp == null) {
             return res.status(404).send({
                 message: "phone number's not found"
             })
-        return res.status(200).send({ otp: otp })
+        }
+        return res.status(200).send({ otp })
     }
 
     public requestOTP = async (req: Request, res: Response) => {
         const data = req.body
         const { error } = this.otpSchema.reqOTP.validate(data)
         const { phoneNumber } = data
-        if (error)
+        if (error) {
             return res.status(400).send({
                 message: error.details[0].message
             })
+        }
         const otp = this.checkOTP(phoneNumber.toString())
-        if (otp == null)
+        if (otp == null) {
             return res.status(406).send({
                 message: "phone number's already have latest otp"
             })
+        }
         const latestOTP = await this.otpModel.getOTPFromPhoneNumber(parseInt(phoneNumber))
         const otpCode = Math.floor(100000 + Math.random() * 900000)
         await this.otpModel.createOTP(phoneNumber, otpCode)
@@ -55,11 +58,12 @@ export default class OneTimePasswordController {
 
     public resendOTP = async (req: Request, res: Response) => {
         const { phoneNumber } = req.params
-        const result = await this.otpModel.getOTPFromPhoneNumber(parseInt(phoneNumber!.toString()))
-        if (result == null)
+        const result = await this.otpModel.getOTPFromPhoneNumber(parseInt(phoneNumber.toString()))
+        if (result == null) {
             return res.status(404).send({
                 message: "phone number's not found"
             })
+        }
         await this.client.sendMessage(phoneNumber + '@c.us', {
             text: this.firstStatement + result.otpCode + this.lastStatement
         })
@@ -74,10 +78,11 @@ export default class OneTimePasswordController {
         const data = req.body
         const { error } = this.otpSchema.useOTP.validate(data)
         const { otpCode } = data
-        if (error)
+        if (error) {
             return res.status(400).send({
                 message: error.details[0].message
             })
+        }
         const latestOTP = await this.checkOTP(phoneNumber)
         if (latestOTP == null) {
             return res.status(404).send({
@@ -85,7 +90,7 @@ export default class OneTimePasswordController {
             })
         }
         if (!(latestOTP?.otpCode == otpCode)) {
-            await this.otpModel.updateOTP(parseInt(phoneNumber), latestOTP!.attempt + 1, false)
+            await this.otpModel.updateOTP(parseInt(phoneNumber), latestOTP.attempt + 1, false)
             return res.status(401).send({
                 message: 'wrong otp code'
             })
