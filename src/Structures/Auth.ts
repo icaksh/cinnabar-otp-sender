@@ -6,7 +6,7 @@ import {
     type SignalDataTypeMap,
     type AuthenticationState
 } from '@whiskeysockets/baileys'
-import SessionModel from '../Database/Models/SessionModel'
+import {SessionModel} from '../Database/Models'
 
 export class AuthenticationFromDatabase {
     constructor(private readonly sessionId: string) {}
@@ -20,7 +20,7 @@ export class AuthenticationFromDatabase {
         let keys: any = {}
         const storedCreds = await this.session.getSession(this.sessionId)
         if (storedCreds?.session) {
-            const parsedCreds = JSON.parse(storedCreds.session, BufferJSON.reviver)
+            const parsedCreds = JSON.parse(JSON.stringify(storedCreds.session), BufferJSON.reviver)
             creds = parsedCreds.creds
             keys = parsedCreds.keys
         } else {

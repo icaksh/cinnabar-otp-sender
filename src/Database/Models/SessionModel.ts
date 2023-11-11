@@ -2,7 +2,7 @@ import { DataTypes, type InferAttributes, type InferCreationAttributes, Model } 
 import { Attribute, PrimaryKey, Table } from '@sequelize/core/decorators-legacy'
 
 @Table({ tableName: 'session' })
-export default class SessionModel extends Model<InferAttributes<SessionModel>, InferCreationAttributes<SessionModel>> {
+export class SessionModel extends Model<InferAttributes<SessionModel>, InferCreationAttributes<SessionModel>> {
     @Attribute(DataTypes.STRING)
     @PrimaryKey
     declare id: string

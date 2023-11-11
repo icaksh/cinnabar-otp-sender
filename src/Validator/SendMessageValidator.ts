@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-export default class SendMessageSchema {
+export class SendMessageValidator {
     public sendMessage = Joi.object().required().keys({
         message: Joi.string()
     })
