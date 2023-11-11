@@ -17,7 +17,6 @@ export class AuthenticationRouter {
         this.router.use('/', this.basicAuth.basicAuth(), express.static(this.path))
         this.router.get('/qr', async (req, res) => {
             const { session } = req.query
-            console.log(this.client.config.session)
             if (!session || !this.client || this.client.config.session != (req.query.session as string)) {
                 return void res.status(404).setHeader('Content-Type', 'text/plain').send('Invalid Session').end()
             }
