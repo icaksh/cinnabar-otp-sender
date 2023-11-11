@@ -14,6 +14,6 @@ export class SendMessageRouter {
     private readonly validator: ValidatorMiddleware = new ValidatorMiddleware()
     private readonly api: ApiKeyMiddleware = new ApiKeyMiddleware()
     protected routes(): void {
-        this.router.post('/', this.api.checkApiKey(), this.validator.validateBody('reqOTP'), this.smc.sendMessage)
+        this.router.post('/', this.api.checkApiKey(), this.validator.validateBody('sendMessage'), this.smc.sendMessage)
     }
 }
