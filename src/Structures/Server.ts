@@ -13,14 +13,6 @@ export class Server {
             next()
         })
         this.app.use(express.json())
-        this.app.use((req, res, next) => {
-            const apiKey = req.get('API-Key')
-            if (!apiKey || apiKey !== process.env.PRIVATE_API_KEY) {
-                res.status(401).json({ message: 'unauthorized' })
-            } else {
-                next()
-            }
-        })
         this.app.use('/otp', new OneTimePasswordRouter(client).router)
         this.app.use('/auth', new AuthenticationRouter(client).router)
         this.app.use('/message', new SendMessageRouter(client).router)

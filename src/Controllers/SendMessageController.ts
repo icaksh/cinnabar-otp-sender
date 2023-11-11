@@ -2,7 +2,7 @@ import { config as Config } from 'dotenv'
 import { type Request, type Response } from 'express'
 import { type Client } from '../Structures'
 
-export default class SendMessageController {
+export class SendMessageController {
     constructor(private readonly client: Client) {
         Config()
     }

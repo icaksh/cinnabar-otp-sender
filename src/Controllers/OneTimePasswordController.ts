@@ -4,7 +4,7 @@ import { type Request, type Response } from 'express'
 import { type Client } from '../Structures'
 import { Op } from '@sequelize/core'
 
-export default class OneTimePasswordController {
+export class OneTimePasswordController {
     constructor(private readonly client: Client) {
         Config()
     }

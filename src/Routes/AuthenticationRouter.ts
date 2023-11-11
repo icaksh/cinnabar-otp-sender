@@ -1,6 +1,7 @@
 import { join } from 'path'
 import { type Client } from '../Structures'
-import express, { type Router } from 'express'
+import express, { NextFunction, type Router } from 'express'
+import { BasicAuthMiddleware } from '../Middlewares'
 
 export class AuthenticationRouter {
     constructor(private readonly client: Client) {
@@ -10,12 +11,14 @@ export class AuthenticationRouter {
 
     public router: Router
     private readonly path = join(__dirname, '..', '..', 'static')
+    private readonly basicAuth: BasicAuthMiddleware = new BasicAuthMiddleware()
 
     protected routes(): void {
-        this.router.use('/', express.static(this.path))
+        this.router.use('/', this.basicAuth.basicAuth(), express.static(this.path))
         this.router.get('/qr', async (req, res) => {
             const { session } = req.query
-            if (!session || !this.client || this.client.config.session !== (req.query.session as string)) {
+            console.log(this.client.config.session)
+            if (!session || !this.client || this.client.config.session != (req.query.session as string)) {
                 return void res.status(404).setHeader('Content-Type', 'text/plain').send('Invalid Session').end()
             }
             if (!this.client?.QR) {
