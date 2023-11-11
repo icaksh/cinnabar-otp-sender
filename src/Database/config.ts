@@ -1,7 +1,8 @@
 import * as dotenv from 'dotenv'
 
-import { type Dialect, Sequelize } from '@sequelize/core'
+import { type Dialect, Sequelize, sql } from '@sequelize/core'
 import { SessionModel, OneTimePasswordModel } from './Models'
+import { P, pino } from 'pino'
 dotenv.config()
 
 const dbName = process.env.DB_NAME as string
@@ -20,7 +21,8 @@ const connectDatabase = new Sequelize({
         ssl: {
             rejectUnauthorized: false
         }
-    }
+    },
+    logging: pino({level: "fatal"}).info(sql) as any
 })
 
 export default connectDatabase
