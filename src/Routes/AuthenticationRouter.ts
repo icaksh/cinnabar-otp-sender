@@ -1,6 +1,6 @@
 import { join } from 'path'
 import { type Client } from '../Structures'
-import express, { NextFunction, type Router } from 'express'
+import express, { type Router } from 'express'
 import { BasicAuthMiddleware } from '../Middlewares'
 
 export class AuthenticationRouter {

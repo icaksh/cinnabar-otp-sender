@@ -1,11 +1,11 @@
 import { config as Config } from 'dotenv'
 import EventEmitter from 'events'
-import TypedEventEmmiter from 'typed-emitter'
-import Baileys, { DisconnectReason, WACallEvent, fetchLatestBaileysVersion } from '@whiskeysockets/baileys'
+import type TypedEventEmmiter from 'typed-emitter'
+import Baileys, { DisconnectReason, type WACallEvent, fetchLatestBaileysVersion } from '@whiskeysockets/baileys'
 import { Server } from './Server'
-import { client } from '../Types'
-import { IConfig } from '../Types/Config'
-import { Boom } from '@hapi/boom'
+import { type client } from '../Types'
+import { type IConfig } from '../Types/Config'
+import { type Boom } from '@hapi/boom'
 import { AuthenticationFromDatabase } from './Auth'
 import qr from 'qr-image'
 import connectDatabase from '../Database/config'
@@ -61,14 +61,14 @@ export class Client extends (EventEmitter as new () => TypedEventEmmiter<Events>
             if (connection === 'close') {
                 if ((lastDisconnect?.error as Boom)?.output?.statusCode !== DisconnectReason.loggedOut) {
                     this.log('Reconnecting...')
-                    setTimeout(() => this.start(), 3000)
+                    setTimeout(async () => await this.start(), 3000)
                 } else {
                     this.log('Disconnected.', true)
                     this.log('Deleting session and restarting')
                     clearState()
                     this.log('Session deleted')
                     this.log('Starting...')
-                    setTimeout(() => this.start(), 3000)
+                    setTimeout(async () => await this.start(), 3000)
                 }
             }
             if (connection === 'connecting') {
@@ -85,8 +85,10 @@ export class Client extends (EventEmitter as new () => TypedEventEmmiter<Events>
     }
 
     public config: IConfig
-    public log = (text: string, error: boolean = false): void =>
+    public log = (text: string, error: boolean = false): void => {
         console.log(error ? 'ERROR' : 'OK', `[${this.config.name.toUpperCase()}]`, text)
+    }
+
     public ev!: client['ev']
 
     public QR!: Buffer

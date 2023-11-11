@@ -9,8 +9,8 @@ export class OneTimePasswordController {
         Config()
     }
 
-    private readonly firstStatement = process.env.FIRST_STATEMENT + " " || 'Your OTP Code is '
-    private readonly lastStatement = " " + process.env.LAST_STATEMENT || ' Keep Secret!'
+    private readonly firstStatement = process.env.FIRST_STATEMENT + ' ' || 'Your OTP Code is '
+    private readonly lastStatement = ' ' + process.env.LAST_STATEMENT || ' Keep Secret!'
 
     private readonly otp = OneTimePasswordModel
 

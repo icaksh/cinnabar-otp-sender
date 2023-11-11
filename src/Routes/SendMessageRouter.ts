@@ -1,5 +1,5 @@
 import { SendMessageController } from '../Controllers'
-import { ApiKeyMiddleware } from '../Middlewares'
+import { ApiKeyMiddleware, ValidatorMiddleware } from '../Middlewares'
 import { type Client } from '../Structures'
 import express, { type Router } from 'express'
 
@@ -11,8 +11,9 @@ export class SendMessageRouter {
 
     public router: Router
     private readonly smc: SendMessageController = new SendMessageController(this.client)
+    private readonly validator: ValidatorMiddleware = new ValidatorMiddleware()
     private readonly api: ApiKeyMiddleware = new ApiKeyMiddleware()
     protected routes(): void {
-        this.router.post('/:phoneNumber', this.api.checkApiKey(), this.smc.sendMessage)
+        this.router.post('/', this.api.checkApiKey(), this.validator.validateBody('reqOTP'), this.smc.sendMessage)
     }
 }
