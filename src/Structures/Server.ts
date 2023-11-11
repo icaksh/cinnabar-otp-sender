@@ -11,9 +11,9 @@ export class Server {
             res.header('Access-Control-Allow-Origin', '*')
             res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, API-Key')
             next()
-          })
+        })
         this.app.use(express.json())
-        this.app.use((req, res, next) => { 
+        this.app.use((req, res, next) => {
             const apiKey = req.get('API-Key')
             if (!apiKey || apiKey !== process.env.PRIVATE_API_KEY) {
                 res.status(401).json({ message: 'unauthorized' })

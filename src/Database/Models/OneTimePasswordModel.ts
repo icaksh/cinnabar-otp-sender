@@ -1,13 +1,7 @@
-import {
-    CreationOptional,
-    DataTypes,
-    type InferAttributes,
-    type InferCreationAttributes,
-    Model,
-} from '@sequelize/core'
+import { CreationOptional, DataTypes, type InferAttributes, type InferCreationAttributes, Model } from '@sequelize/core'
 import { Attribute, AutoIncrement, NotNull, PrimaryKey, Table } from '@sequelize/core/decorators-legacy'
 
-@Table({ tableName: 'otp'})
+@Table({ tableName: 'otp' })
 export class OneTimePasswordModel extends Model<
     InferAttributes<OneTimePasswordModel>,
     InferCreationAttributes<OneTimePasswordModel>

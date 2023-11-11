@@ -1,7 +1,7 @@
-import * as OTPValidator from "./OneTimePasswordValidator";
-import * as SMValidator from "./SendMessageValidator";
+import * as OTPValidator from './OneTimePasswordValidator'
+import * as SMValidator from './SendMessageValidator'
 
-const validator =  {
+const validator = {
     ...OTPValidator,
     ...SMValidator
 }

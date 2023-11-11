@@ -1,5 +1,5 @@
 import OneTimePasswordController from '../Controllers/OneTimePasswordController'
-import {ValidatorMiddleware} from '../Middlewares/Validator'
+import { ValidatorMiddleware } from '../Middlewares/Validator'
 import { type Client } from '../Structures'
 import express, { type Router } from 'express'
 

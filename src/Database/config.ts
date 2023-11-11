@@ -1,8 +1,8 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
+import * as dotenv from 'dotenv'
 
-import { Dialect, Sequelize } from '@sequelize/core'
-import {SessionModel, OneTimePasswordModel} from './Models';
+import { type Dialect, Sequelize } from '@sequelize/core'
+import { SessionModel, OneTimePasswordModel } from './Models'
+dotenv.config()
 
 const dbName = process.env.DB_NAME as string
 const dbUser = process.env.DB_USER as string
@@ -16,13 +16,11 @@ const connectDatabase = new Sequelize({
     password: dbPassword,
     database: dbName,
     models: [SessionModel, OneTimePasswordModel],
-    dialectOptions:{
-        ssl:{
+    dialectOptions: {
+        ssl: {
             rejectUnauthorized: false
         }
-        
     }
-
 })
 
 export default connectDatabase

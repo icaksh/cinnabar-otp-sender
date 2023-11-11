@@ -1,5 +1,5 @@
 import { config as Config } from 'dotenv'
-import {OneTimePasswordModel} from '../Database/Models'
+import { OneTimePasswordModel } from '../Database/Models'
 import { type Request, type Response } from 'express'
 import { type Client } from '../Structures'
 import { Op } from '@sequelize/core'
@@ -14,25 +14,25 @@ export default class OneTimePasswordController {
 
     private readonly otp = OneTimePasswordModel
 
-    public getOTP = async (req: Request, res: Response) : Promise<Response>=> {
+    public getOTP = async (req: Request, res: Response): Promise<Response> => {
         const data = req.query
         const { phoneNumber } = data
         const otp = await this.getOTPFromNumber(parseInt(phoneNumber as string))
         if (otp == null) {
             return res.status(404).send({
-                message: "phone number dont have otp code or otp has been expired"
+                message: 'phone number dont have otp code or otp has been expired'
             })
         }
         return res.status(200).send({ otp })
     }
 
-    public requestOTP = async (req: Request, res: Response): Promise<Response>=> {
+    public requestOTP = async (req: Request, res: Response): Promise<Response> => {
         const data = req.body
         const { phoneNumber } = data
         const otp = await this.getOTPFromNumber(phoneNumber)
         if (otp != null) {
             return res.status(406).send({
-                message: "phone number already have latest otp"
+                message: 'phone number already have latest otp'
             })
         }
         const otpCode = Math.floor(100000 + Math.random() * 900000)
@@ -50,7 +50,7 @@ export default class OneTimePasswordController {
         const result = await this.getOTPFromNumber(phoneNumber)
         if (result == null) {
             return res.status(404).send({
-                message: "phone number dont have otp code or otp has been expired"
+                message: 'phone number dont have otp code or otp has been expired'
             })
         }
         await this.client.sendMessage(phoneNumber + '@c.us', {
@@ -68,7 +68,7 @@ export default class OneTimePasswordController {
         const latestOTP = await this.getOTPFromNumber(phoneNumber)
         if (latestOTP == null) {
             return res.status(404).send({
-                message: "phone number dont have otp code or otp has been expired"
+                message: 'phone number dont have otp code or otp has been expired'
             })
         }
         if (!(latestOTP?.otpCode == otpCode)) {
@@ -102,7 +102,7 @@ export default class OneTimePasswordController {
     private readonly lifetime = parseInt(process.env.OTP_LIFETIME || '2')
     private readonly attempts = parseInt(process.env.OTP_MAX_ATTEMPTS || '3')
 
-    private getOTPFromNumber = async (phoneNumber: number): Promise<OneTimePasswordModel | null> => {
+    private readonly getOTPFromNumber = async (phoneNumber: number): Promise<OneTimePasswordModel | null> => {
         return await this.otp.findOne({
             where: {
                 [Op.and]: [
@@ -115,7 +115,7 @@ export default class OneTimePasswordController {
         })
     }
 
-    private createOTP = async (phoneNumber: number, otpCode: number): Promise<void> => {
+    private readonly createOTP = async (phoneNumber: number, otpCode: number): Promise<void> => {
         await this.otp.create({
             phoneNumber,
             otpCode,
@@ -124,7 +124,7 @@ export default class OneTimePasswordController {
         })
     }
 
-    private updateOTP = async (phoneNumber: number, attempt: number, isUsed: boolean): Promise<void> => {
+    private readonly updateOTP = async (phoneNumber: number, attempt: number, isUsed: boolean): Promise<void> => {
         await this.otp.update(
             {
                 attempt,
@@ -143,7 +143,7 @@ export default class OneTimePasswordController {
         )
     }
 
-    private deleteOTP = async (phoneNumber: number): Promise<void> => {
+    private readonly deleteOTP = async (phoneNumber: number): Promise<void> => {
         await this.otp.destroy({
             where: {
                 phoneNumber
