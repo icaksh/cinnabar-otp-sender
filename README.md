@@ -9,7 +9,11 @@ I build free One-Time Password (OTP) Sender based on NodeJS, Express, and TypeSc
 - WA 
 - Telegram (Coming Soon(?))
 
-## Environtment Variables
+## To Do
+- Migration (because of using v7.0/alpha)
+- Telegram Support
+
+## Environment Variables
 ### Example
 ```sh
 # APP CONFIGURATION
@@ -113,7 +117,7 @@ A JSON-encoded object for the updated `Router Group`.
 `API-Key` is required. Get from `PRIVATE_API_KEY` from your `.env` file.
 
 #### Request Query
-A JSON-encoded object for the otp. The `phoneNumber` is required, and reservable_ports must be included if type is tcp.
+A JSON-encoded object for the otp. The `phoneNumber` must be includeed.
 
 |Object Field | Type | Required | Description|
 |-------------|------|----------|------------|
@@ -155,7 +159,7 @@ A JSON-encoded object.
 `API-Key` is required. Get from `PRIVATE_API_KEY` from your `.env` file.
 
 #### Request Body
-A JSON-encoded object for the otp. The `phoneNumber` is required, and reservable_ports must be included if type is tcp.
+A JSON-encoded object for the otp. The `phoneNumber` must be included.
 
 |Object Field | Type | Required | Description|
 |-------------|------|----------|------------|
@@ -169,7 +173,7 @@ curl -vvv -H "API-Key: api-key" http://example.com/otp/resend -X POST -d '{"phon
   Expected Status `202 Accepted`
 
 #### Response Body
-A JSON-encoded object for the updated `Router Group`.
+A JSON-encoded object.
 
 | Object Field       | Type   | Description |
 |--------------------|--------|-------------|
@@ -198,7 +202,7 @@ A JSON-encoded object for the updated `Router Group`.
 `API-Key` is required. Get from `PRIVATE_API_KEY` from your `.env` file.
 
 #### Request Body
-A JSON-encoded object for the otp. The `phoneNumber` is required, and reservable_ports must be included if type is tcp.
+A JSON-encoded object for the otp. The `phoneNumber` and `otpCode` must be included
 
 |Object Field | Type | Required | Description|
 |-------------|------|----------|------------|
