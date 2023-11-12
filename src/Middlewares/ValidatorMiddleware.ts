@@ -16,7 +16,7 @@ export class ValidatorMiddleware {
                 if (err.isJoi) {
                     return res.status(422).send({ message: err.message })
                 }
-                return res.status(500)
+                return res.status(500).send({ message: 'internal server error' })
             }
         }
     }

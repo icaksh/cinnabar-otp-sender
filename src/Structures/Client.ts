@@ -7,7 +7,7 @@ import { type client } from '../Types'
 import { type IConfig } from '../Types/Config'
 import { type Boom } from '@hapi/boom'
 import { AuthenticationFromDatabase } from './Auth'
-import P, { levels, pino } from 'pino'
+import P from 'pino'
 import qr from 'qr-image'
 import connectDatabase from '../Database/config'
 
@@ -34,7 +34,7 @@ export class Client extends (EventEmitter as new () => TypedEventEmmiter<Events>
             version,
             printQRInTerminal: true,
             auth: state,
-            logger: P({level:"fatal"}) as any,
+            logger: P({ level: 'fatal' }) as any,
             browser: ['Firefox (FreeBSD)', 'info', '4.0.0'],
             getMessage: async (key) => {
                 return {

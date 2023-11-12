@@ -3,6 +3,7 @@ import { OneTimePasswordModel } from '../Database/Models'
 import { type Request, type Response } from 'express'
 import { type Client } from '../Structures'
 import { Op } from '@sequelize/core'
+import { randomInt } from 'crypto'
 
 export class OneTimePasswordController {
     constructor(private readonly client: Client) {
@@ -35,7 +36,7 @@ export class OneTimePasswordController {
                 message: 'phone number already have latest otp'
             })
         }
-        const otpCode = Math.floor(100000 + Math.random() * 900000)
+        const otpCode = randomInt(100000, 999999)
         await this.createOTP(phoneNumber, otpCode)
         const result = await this.getOTPFromNumber(phoneNumber)
         await this.client.sendMessage(phoneNumber + '@c.us', {
@@ -77,10 +78,11 @@ export class OneTimePasswordController {
                 message: 'wrong otp code'
             })
         }
-        await this.updateOTP(parseInt(phoneNumber), 5, true)
+        await this.updateOTP(parseInt(phoneNumber), 999, true)
+        const info = await this.getOTPFromId(latestOTP.id)
         return res.status(200).send({
             message: 'verification success',
-            info: latestOTP
+            info
         })
     }
 
@@ -101,6 +103,14 @@ export class OneTimePasswordController {
 
     private readonly lifetime = parseInt(process.env.OTP_LIFETIME || '2')
     private readonly attempts = parseInt(process.env.OTP_MAX_ATTEMPTS || '3')
+
+    private readonly getOTPFromId = async (id: number): Promise<OneTimePasswordModel | null> => {
+        return await this.otp.findOne({
+            where: {
+                id
+            }
+        })
+    }
 
     private readonly getOTPFromNumber = async (phoneNumber: number): Promise<OneTimePasswordModel | null> => {
         return await this.otp.findOne({
