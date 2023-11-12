@@ -82,7 +82,7 @@ export class OneTimePasswordController {
         const info = await this.getOTPFromId(latestOTP.id)
         return res.status(200).send({
             message: 'verification success',
-            info
+            info: info
         })
     }
 
