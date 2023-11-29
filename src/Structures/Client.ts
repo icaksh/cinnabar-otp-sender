@@ -33,6 +33,7 @@ export class Client extends (EventEmitter as new () => TypedEventEmmiter<Events>
         this.client = Baileys({
             version,
             printQRInTerminal: true,
+            keepAliveIntervalMs: 30000,
             auth: state,
             logger: P({ level: 'fatal' }) as any,
             browser: ['Firefox (FreeBSD)', 'info', '4.0.0'],
@@ -95,6 +96,7 @@ export class Client extends (EventEmitter as new () => TypedEventEmmiter<Events>
     public QR!: Buffer
     public condition!: 'connected' | 'connecting' | 'logged_out'
     public sendMessage!: client['sendMessage']
+    public waitForSocketOpen!: client['waitForSocketOpen']
 }
 
 type Events = {

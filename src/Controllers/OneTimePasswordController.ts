@@ -28,6 +28,13 @@ export class OneTimePasswordController {
     }
 
     public requestOTP = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            await this.client.waitForSocketOpen()
+        } catch {
+            return res.status(500).send({
+                message: 'internal server error (wa: cannot open socket)'
+            })
+        }
         const data = req.body
         const { phoneNumber } = data
         const otp = await this.getOTPFromNumber(phoneNumber)
@@ -46,6 +53,13 @@ export class OneTimePasswordController {
     }
 
     public resendOTP = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            await this.client.waitForSocketOpen()
+        } catch {
+            return res.status(500).send({
+                message: 'internal server error (wa: cannot open socket)'
+            })
+        }
         const data = req.body
         const { phoneNumber } = data
         const result = await this.getOTPFromNumber(phoneNumber)
@@ -64,6 +78,13 @@ export class OneTimePasswordController {
     }
 
     public useOTP = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            await this.client.waitForSocketOpen()
+        } catch {
+            return res.status(500).send({
+                message: 'internal server error (wa: cannot open socket)'
+            })
+        }
         const data = req.body
         const { phoneNumber, otpCode } = data
         const latestOTP = await this.getOTPFromNumber(phoneNumber)
@@ -87,6 +108,13 @@ export class OneTimePasswordController {
     }
 
     public delOTP = async (req: Request, res: Response): Promise<Response> => {
+        try {
+            await this.client.waitForSocketOpen()
+        } catch {
+            return res.status(500).send({
+                message: 'internal server error (wa: cannot open socket)'
+            })
+        }
         const data = req.body
         const { phoneNumber } = data
         const latestOTP = await this.getOTPFromNumber(phoneNumber)
