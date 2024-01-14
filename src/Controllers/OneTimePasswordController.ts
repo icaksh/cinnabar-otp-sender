@@ -49,7 +49,9 @@ export class OneTimePasswordController {
         await this.client.sendMessage(phoneNumber + '@c.us', {
             text: this.firstStatement + otpCode + this.lastStatement
         })
-        return res.status(201).send(result)
+        return res.status(201).send({
+            message: 'created'
+        })
     }
 
     public resendOTP = async (req: Request, res: Response): Promise<Response> => {
@@ -72,8 +74,7 @@ export class OneTimePasswordController {
             text: this.firstStatement + result.otpCode + this.lastStatement
         })
         return res.status(202).send({
-            message: 'success resending otp code',
-            info: result
+            message: 'success resending otp code'
         })
     }
 
@@ -103,7 +104,6 @@ export class OneTimePasswordController {
         const info = await this.getOTPFromId(latestOTP.id)
         return res.status(200).send({
             message: 'verification success',
-            info: info
         })
     }
 

@@ -11,7 +11,7 @@ export class SendMessageController {
         const data = req.body
         const { phoneNumber, message } = data
         await this.client.sendMessage(phoneNumber + '@c.us', {
-            text: `${message}`
+            text: message
         })
         return res.status(202).send({
             message: 'success sending message',
